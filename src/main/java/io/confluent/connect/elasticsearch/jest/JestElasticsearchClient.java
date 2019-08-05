@@ -147,9 +147,6 @@ public class JestElasticsearchClient implements ElasticsearchClient {
       config.getCredentialsProvider()
     );
 
-    return new JestClientFactory();
-/*
-
     return new JestClientFactory() {
       @Override
       protected HttpClientBuilder configureHttpClient(HttpClientBuilder builder) {
@@ -163,7 +160,6 @@ public class JestElasticsearchClient implements ElasticsearchClient {
         return builder;
       }
     };
-*/
   }
 
   public JestElasticsearchClient(Map<String, String> props) {
