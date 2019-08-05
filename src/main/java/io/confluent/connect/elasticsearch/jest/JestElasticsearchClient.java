@@ -142,9 +142,9 @@ public class JestElasticsearchClient implements ElasticsearchClient {
     signer.setRegionName(config.getString(ElasticsearchSinkConnectorConfig.AWS_REGION_CONFIG));
 
     HttpRequestInterceptor interceptor = new AWSRequestSigningApacheInterceptor(
-      serviceName,
-      signer,
-      config.getCredentialsProvider()
+        serviceName,
+        signer,
+        config.getCredentialsProvider()
     );
 
     return new JestClientFactory() {
