@@ -193,9 +193,9 @@ public class ElasticsearchSinkConnectorConfig extends AbstractConfig {
   private static final String AWS_SIGNING_ENABLED_DOC = "Whether to sign Elasticsearch requests"
       + " with the AWS signer";
 
-//  public static final String AWS_REGION_CONFIG = "aws.region";
-//  private static final String AWS_REGION_DOC = "The AWS region to be used by the connector.";
-//  private static final String AWS_REGION_DEFAULT = Regions.DEFAULT_REGION.getName();
+  public static final String AWS_REGION_CONFIG = "aws.region";
+  private static final String AWS_REGION_DOC = "The AWS region to be used by the connector.";
+  private static final String AWS_REGION_DEFAULT = Regions.DEFAULT_REGION.getName();
 //
 //
 //  private static final String AWS_CREDENTIALS_PROVIDER_CLASS_CONFIG =
@@ -256,18 +256,18 @@ public class ElasticsearchSinkConnectorConfig extends AbstractConfig {
         ++order,
         Width.SHORT,
         "Enable AWS Signing"
-//    ).define(
-//        AWS_REGION_CONFIG,
-//        Type.STRING,
-//        AWS_REGION_DEFAULT,
-//        new RegionValidator(),
-//        Importance.MEDIUM,
-//        AWS_REGION_DOC,
-//        group,
-//        ++order,
-//        Width.LONG,
-//        "AWS region",
-//        new RegionRecommender()
+    ).define(
+        AWS_REGION_CONFIG,
+        Type.STRING,
+        AWS_REGION_DEFAULT,
+        new RegionValidator(),
+        Importance.MEDIUM,
+        AWS_REGION_DOC,
+        group,
+        ++order,
+        Width.LONG,
+        "AWS region",
+        new RegionRecommender()
 //    ).define(
 //        AWS_CREDENTIALS_PROVIDER_CLASS_CONFIG,
 //        Type.CLASS,
@@ -589,37 +589,37 @@ public class ElasticsearchSinkConnectorConfig extends AbstractConfig {
 //      return "Any class implementing: " + AWSCredentialsProvider.class;
 //    }
 //  }
-//
-//  private static class RegionRecommender implements ConfigDef.Recommender {
-//    @Override
-//    public List<Object> validValues(String name, Map<String, Object> connectorConfigs) {
-//      return Arrays.<Object>asList(RegionUtils.getRegions());
-//    }
-//
-//    @Override
-//    public boolean visible(String name, Map<String, Object> connectorConfigs) {
-//      return true;
-//    }
-//  }
-//
-//  private static class RegionValidator implements ConfigDef.Validator {
-//    @Override
-//    public void ensureValid(String name, Object region) {
-//      String regionStr = ((String) region).toLowerCase().trim();
-//      if (RegionUtils.getRegion(regionStr) == null) {
-//        throw new ConfigException(
-//          name,
-//          region,
-//          "Value must be one of: " + Utils.join(RegionUtils.getRegions(), ", ")
-//        );
-//      }
-//    }
-//
-//    @Override
-//    public String toString() {
-//      return "[" + Utils.join(RegionUtils.getRegions(), ", ") + "]";
-//    }
-//  }
+
+  private static class RegionRecommender implements ConfigDef.Recommender {
+    @Override
+    public List<Object> validValues(String name, Map<String, Object> connectorConfigs) {
+      return Arrays.<Object>asList(RegionUtils.getRegions());
+    }
+
+    @Override
+    public boolean visible(String name, Map<String, Object> connectorConfigs) {
+      return true;
+    }
+  }
+
+  private static class RegionValidator implements ConfigDef.Validator {
+    @Override
+    public void ensureValid(String name, Object region) {
+      String regionStr = ((String) region).toLowerCase().trim();
+      if (RegionUtils.getRegion(regionStr) == null) {
+        throw new ConfigException(
+          name,
+          region,
+          "Value must be one of: " + Utils.join(RegionUtils.getRegions(), ", ")
+        );
+      }
+    }
+
+    @Override
+    public String toString() {
+      return "[" + Utils.join(RegionUtils.getRegions(), ", ") + "]";
+    }
+  }
 
   public static final ConfigDef CONFIG = baseConfigDef();
 
