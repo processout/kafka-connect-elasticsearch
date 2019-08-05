@@ -137,6 +137,9 @@ public class JestElasticsearchClient implements ElasticsearchClient {
       return new JestClientFactory();
     }
 
+    return new JestClientFactory();
+/*
+
     AWS4Signer signer = new AWS4Signer();
     signer.setServiceName(serviceName);
     signer.setRegionName(config.getString(ElasticsearchSinkConnectorConfig.AWS_REGION_CONFIG));
@@ -160,6 +163,7 @@ public class JestElasticsearchClient implements ElasticsearchClient {
         return builder;
       }
     };
+*/
   }
 
   public JestElasticsearchClient(Map<String, String> props) {
