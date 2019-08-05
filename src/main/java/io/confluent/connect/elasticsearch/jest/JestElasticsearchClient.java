@@ -137,18 +137,18 @@ public class JestElasticsearchClient implements ElasticsearchClient {
       return new JestClientFactory();
     }
 
-    return new JestClientFactory();
-/*
-
     AWS4Signer signer = new AWS4Signer();
     signer.setServiceName(serviceName);
     signer.setRegionName(config.getString(ElasticsearchSinkConnectorConfig.AWS_REGION_CONFIG));
 
     HttpRequestInterceptor interceptor = new AWSRequestSigningApacheInterceptor(
-        serviceName,
-        signer,
-        config.getCredentialsProvider()
+      serviceName,
+      signer,
+      config.getCredentialsProvider()
     );
+
+    return new JestClientFactory();
+/*
 
     return new JestClientFactory() {
       @Override
