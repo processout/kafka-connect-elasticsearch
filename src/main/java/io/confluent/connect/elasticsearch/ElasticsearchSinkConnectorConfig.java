@@ -196,22 +196,21 @@ public class ElasticsearchSinkConnectorConfig extends AbstractConfig {
   public static final String AWS_REGION_CONFIG = "aws.region";
   private static final String AWS_REGION_DOC = "The AWS region to be used by the connector.";
   private static final String AWS_REGION_DEFAULT = Regions.DEFAULT_REGION.getName();
-//
-//
-//  private static final String AWS_CREDENTIALS_PROVIDER_CLASS_CONFIG =
-//      "aws.credentials.provider.class";
-//  private static final Class<? extends AWSCredentialsProvider>
-//      AWS_CREDENTIALS_PROVIDER_CLASS_DEFAULT = DefaultAWSCredentialsProviderChain.class;
-//
-//  /**
-//   * The properties that begin with this prefix will be used to configure a class, specified by
-//   * {@code aws.credentials.provider.class} if it implements {@link Configurable}.
-//   */
-//  public static final String AWS_CREDENTIALS_PROVIDER_CONFIG_PREFIX =
-//      AWS_CREDENTIALS_PROVIDER_CLASS_CONFIG.substring(
-//          0,
-//          AWS_CREDENTIALS_PROVIDER_CLASS_CONFIG.lastIndexOf(".") + 1
-//    );
+
+  private static final String AWS_CREDENTIALS_PROVIDER_CLASS_CONFIG =
+      "aws.credentials.provider.class";
+  private static final Class<? extends AWSCredentialsProvider>
+      AWS_CREDENTIALS_PROVIDER_CLASS_DEFAULT = DefaultAWSCredentialsProviderChain.class;
+
+  /**
+   * The properties that begin with this prefix will be used to configure a class, specified by
+   * {@code aws.credentials.provider.class} if it implements {@link Configurable}.
+   */
+  public static final String AWS_CREDENTIALS_PROVIDER_CONFIG_PREFIX =
+      AWS_CREDENTIALS_PROVIDER_CLASS_CONFIG.substring(
+          0,
+          AWS_CREDENTIALS_PROVIDER_CLASS_CONFIG.lastIndexOf(".") + 1
+    );
 
   protected static ConfigDef baseConfigDef() {
     final ConfigDef configDef = new ConfigDef();
@@ -268,18 +267,18 @@ public class ElasticsearchSinkConnectorConfig extends AbstractConfig {
         Width.LONG,
         "AWS region",
         new RegionRecommender()
-//    ).define(
-//        AWS_CREDENTIALS_PROVIDER_CLASS_CONFIG,
-//        Type.CLASS,
-//        AWS_CREDENTIALS_PROVIDER_CLASS_DEFAULT,
-//        new CredentialsProviderValidator(),
-//        Importance.LOW,
-//        "Credentials provider or provider chain to use for authentication to AWS. By default "
-//          + "the connector uses 'DefaultAWSCredentialsProviderChain'.",
-//        group,
-//        ++order,
-//        Width.LONG,
-//        "AWS Credentials Provider Class"
+    ).define(
+        AWS_CREDENTIALS_PROVIDER_CLASS_CONFIG,
+        Type.CLASS,
+        AWS_CREDENTIALS_PROVIDER_CLASS_DEFAULT,
+        new CredentialsProviderValidator(),
+        Importance.LOW,
+        "Credentials provider or provider chain to use for authentication to AWS. By default "
+          + "the connector uses 'DefaultAWSCredentialsProviderChain'.",
+        group,
+        ++order,
+        Width.LONG,
+        "AWS Credentials Provider Class"
     );
   }
 
@@ -544,51 +543,51 @@ public class ElasticsearchSinkConnectorConfig extends AbstractConfig {
         "Write method");
   }
 
-//  @SuppressWarnings("unchecked")
-//  public AWSCredentialsProvider getCredentialsProvider() {
-//    try {
-//      AWSCredentialsProvider provider = ((Class<? extends AWSCredentialsProvider>)
-//          getClass(ElasticsearchSinkConnectorConfig.AWS_CREDENTIALS_PROVIDER_CLASS_CONFIG))
-//          .newInstance();
-//
-//      if (provider instanceof Configurable) {
-//        Map<String, Object> configs = originalsWithPrefix(AWS_CREDENTIALS_PROVIDER_CONFIG_PREFIX);
-//        configs.remove(AWS_CREDENTIALS_PROVIDER_CLASS_CONFIG.substring(
-//            AWS_CREDENTIALS_PROVIDER_CONFIG_PREFIX.length(),
-//            AWS_CREDENTIALS_PROVIDER_CLASS_CONFIG.length()
-//        ));
-//        ((Configurable) provider).configure(configs);
-//      }
-//
-//      return provider;
-//    } catch (IllegalAccessException | InstantiationException e) {
-//      throw new ConnectException(
-//          "Invalid class for: "
-//          + ElasticsearchSinkConnectorConfig.AWS_CREDENTIALS_PROVIDER_CLASS_CONFIG,
-//          e
-//      );
-//    }
-//  }
-//
-//  private static class CredentialsProviderValidator implements ConfigDef.Validator {
-//    @Override
-//    public void ensureValid(String name, Object provider) {
-//      if (provider != null && provider instanceof Class
-//          && AWSCredentialsProvider.class.isAssignableFrom((Class<?>) provider)) {
-//        return;
-//      }
-//      throw new ConfigException(
-//        name,
-//        provider,
-//        "Class must extend: " + AWSCredentialsProvider.class
-//      );
-//    }
-//
-//    @Override
-//    public String toString() {
-//      return "Any class implementing: " + AWSCredentialsProvider.class;
-//    }
-//  }
+  @SuppressWarnings("unchecked")
+  public AWSCredentialsProvider getCredentialsProvider() {
+    try {
+      AWSCredentialsProvider provider = ((Class<? extends AWSCredentialsProvider>)
+          getClass(ElasticsearchSinkConnectorConfig.AWS_CREDENTIALS_PROVIDER_CLASS_CONFIG))
+          .newInstance();
+
+      if (provider instanceof Configurable) {
+        Map<String, Object> configs = originalsWithPrefix(AWS_CREDENTIALS_PROVIDER_CONFIG_PREFIX);
+        configs.remove(AWS_CREDENTIALS_PROVIDER_CLASS_CONFIG.substring(
+            AWS_CREDENTIALS_PROVIDER_CONFIG_PREFIX.length(),
+            AWS_CREDENTIALS_PROVIDER_CLASS_CONFIG.length()
+        ));
+        ((Configurable) provider).configure(configs);
+      }
+
+      return provider;
+    } catch (IllegalAccessException | InstantiationException e) {
+      throw new ConnectException(
+          "Invalid class for: "
+          + ElasticsearchSinkConnectorConfig.AWS_CREDENTIALS_PROVIDER_CLASS_CONFIG,
+          e
+      );
+    }
+  }
+
+  private static class CredentialsProviderValidator implements ConfigDef.Validator {
+    @Override
+    public void ensureValid(String name, Object provider) {
+      if (provider != null && provider instanceof Class
+          && AWSCredentialsProvider.class.isAssignableFrom((Class<?>) provider)) {
+        return;
+      }
+      throw new ConfigException(
+        name,
+        provider,
+        "Class must extend: " + AWSCredentialsProvider.class
+      );
+    }
+
+    @Override
+    public String toString() {
+      return "Any class implementing: " + AWSCredentialsProvider.class;
+    }
+  }
 
   private static class RegionRecommender implements ConfigDef.Recommender {
     @Override
